@@ -31,7 +31,6 @@ class U_App extends Component {
       <BrowserRouter>
         <div className="global-container">
           <MainMenu />
-          {/* <Route exact={true} path="/" render={this.renderSchedule}></Route> */}
           <Route exact={true} path="/schedule" render={this.renderSchedule}></Route>
           <Route exact={true} path="/staff" render={this.renderStaff}></Route>
           <Redirect to="/schedule" />
