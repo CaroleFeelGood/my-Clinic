@@ -8,32 +8,32 @@ let initStore = {
   searchQuery: ''
 };
 let reducer = (state, action) => {
-  if (action.type === 'get-employees') {
-    return {
-      ...state,
-      employees: action.employees
-    };
+  switch (action.type) {
+    case 'set-employees':
+      return {
+        ...state,
+        employees: action.employees
+      };
+    case 'add-employe':
+      return {
+        ...state,
+        open: false,
+          employees: [...state.employees, action.employe]
+
+      };
+    case 'open-modal':
+      return {
+        ...state,
+        open: true
+      };
+    case 'query':
+      return {
+        ...state,
+        searchQuery: action.search
+      };
+    default:
+      return state; //always return a state
   }
-  if (action.type === 'add-employees') {
-    return {
-      ...state,
-      employees: action.employees,
-      open: false
-    };
-  }
-  if (action.type === 'open-modal') {
-    return {
-      ...state,
-      open: true
-    };
-  }
-  if (action.type === 'query') {
-    return {
-      ...state,
-      searchQuery: action.search
-    };
-  }
-  return state; //always return a state
 };
 
 const store = createStore(

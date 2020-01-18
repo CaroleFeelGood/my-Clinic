@@ -1,4 +1,4 @@
-import data from './data.js';
+import data from '../data/data.json';
 
 export default function () {
   return Promise.resolve({

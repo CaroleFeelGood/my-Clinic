@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Dropdown } from 'semantic-ui-react';
 
 class U_CreateEmploye extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class U_CreateEmploye extends Component {
   submit = () => {
     let newid = () => {
       this.props.staff.sort();
-      return this.props.staff[this.props.staff.length - 1] + 10;
+      return this.props.staff[this.props.staff.length - 1].id + 10;
     };
     let newEmploye = {
       id: newid(),
@@ -25,22 +25,36 @@ class U_CreateEmploye extends Component {
       group: this.state.group
     };
 
-    let newtStaffData = this.props.staff;
-    newtStaffData.push(newEmploye);
     this.props.dispatch({
-      type: 'add-employees',
-      employees: newtStaffData,
-      open: false
+      type: 'add-employe',
+      employe: newEmploye
     });
   };
 
-  inputChange = e => {
+  inputChange = (e, value) => {
+    console.log('value', value);
     let stateUpdate = {};
-    stateUpdate[e.target.name] = e.target.value;
+    if (!value) stateUpdate[e.target.name] = e.target.value;
+    else stateUpdate[value.name] = value.value;
     this.setState(stateUpdate);
   };
 
+  getGroup = () => {
+    let groups = this.props.staff.map(employe => {
+      return employe.group;
+    });
+    let newSet = [...new Set(groups)].sort();
+    return newSet;
+  };
+
   render() {
+    let listGroup = this.getGroup();
+    const stateOptions = listGroup.map((group, index) => ({
+      key: listGroup[index],
+      text: group,
+      value: group
+    }));
+
     return (
       <Form onSubmit={this.submit}>
         <Form.Field>
@@ -53,7 +67,7 @@ class U_CreateEmploye extends Component {
         </Form.Field>
         <Form.Field>
           <label>Group</label>
-          <input placeholder="Group" name="group" value={this.state.group} onChange={this.inputChange} />
+          <Dropdown placeholder="Group" name="group" value={this.state.group} selection options={stateOptions} onChange={this.inputChange} />
         </Form.Field>
         <Button type="submit">Submit</Button>
       </Form>

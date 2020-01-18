@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Input, Label } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import fetch from './apiMocked.js';
 
 class U_MainMenu extends Component {
   constructor(props) {
@@ -14,38 +13,20 @@ class U_MainMenu extends Component {
     };
   }
 
-  handleItemClick = (e, { name }) => {
-    this.setState({ activeItem: name });
-    //for navigation
-    this.props.history.push('/' + name);
-  };
-
   handleQuery = evt => {
-    // if (evt.target.value !== '')
     this.props.dispatch({
       type: 'query',
       search: evt.target.value
     });
   };
 
-  componentDidUpdate = prevProps => {
-    //try to force the rerender afet the props is changed
-    // this.forceUpdate();
-    if (this.props.staff.length !== prevProps.staff.length) {
-      this.setState({ countEmployees: this.props.staff.length });
-    }
-  };
-
-  render = () => {
-    let activeItem = this.state;
-    //in order to activ staffMenu when the oage is restarted in /staff link
-    if (this.props.location.pathname.replace('/', '') === 'staff') activeItem = 'staff';
+  render() {
     return (
       <Menu pointing vertical className="mainMenu">
-        <Menu.Item name="schedule" active={activeItem === 'schedule'} className="firstMenu" onClick={this.handleItemClick}>
+        <Menu.Item as={NavLink} to="/schedule" name="schedule" activeClassName="active" className="firstMenu">
           Schedule
         </Menu.Item>
-        <Menu.Item name="staff" active={activeItem === 'staff'} onClick={this.handleItemClick}>
+        <Menu.Item as={NavLink} to="/staff" name="staff" activeClassName="active">
           <Label>{this.props.staff.length}</Label>
           Staff
         </Menu.Item>
@@ -54,7 +35,7 @@ class U_MainMenu extends Component {
         </Menu.Item>
       </Menu>
     );
-  };
+  }
 }
 
 let mapStateToProps = state => {

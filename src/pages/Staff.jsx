@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Button, Modal } from 'semantic-ui-react';
-import CreateEmploye from './CreateEmploye';
+import CreateEmploye from '../components/CreateEmploye';
+
 class U_Staff extends Component {
   constructor(props) {
     super(props);
@@ -21,10 +22,15 @@ class U_Staff extends Component {
 
   render() {
     let resultStaff = this.props.staff.filter(employe => {
-      if (employe.firstName.includes(this.props.query) || employe.lastName.includes(this.props.query) || employe.group.includes(this.props.query)) {
+      if (
+        employe.firstName.toLowerCase().includes(this.props.query.toLowerCase()) ||
+        employe.lastName.toLowerCase().includes(this.props.query.toLowerCase()) ||
+        employe.group.toLowerCase().includes(this.props.query.toLowerCase())
+      ) {
         return employe;
       }
     });
+
     return (
       <div className="staff">
         <Modal trigger={<Button onClick={this.openModal}>Create</Button>} open={this.props.open}>

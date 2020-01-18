@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
-import MainMenu from './MainMenu';
-import Schedule from './Schedule';
-import Staff from './Staff';
-import fetch from './apiMocked.js';
+import { Route, BrowserRouter, Redirect } from 'react-router-dom';
+import MainMenu from './components/MainMenu';
+import Schedule from './pages/Schedule';
+import Staff from './pages/Staff';
+import fetch from './helpers/apiMocked.js';
 import { connect } from 'react-redux';
 class U_App extends Component {
-  constructor(props) {
-    super(props);
-  }
-  renderStaff = () => {
-    return <Staff />;
-  };
+  renderStaff = () => <Staff />;
 
-  renderSchedule = () => {
-    return <Schedule />;
-  };
+  renderSchedule = () => <Schedule />;
 
   componentDidMount() {
     // call the mocked api => function import from apiMocked.js
@@ -24,7 +17,7 @@ class U_App extends Component {
       .then(staffResponse => staffResponse.json())
       .then(staffData => {
         this.props.dispatch({
-          type: 'get-employees',
+          type: 'set-employees',
           employees: staffData
         });
       })
@@ -33,18 +26,19 @@ class U_App extends Component {
       });
   }
 
-  render = () => {
+  render() {
     return (
       <BrowserRouter>
         <div className="global-container">
           <MainMenu />
-          <Route exact={true} path="/" render={this.renderSchedule}></Route>
+          {/* <Route exact={true} path="/" render={this.renderSchedule}></Route> */}
           <Route exact={true} path="/schedule" render={this.renderSchedule}></Route>
           <Route exact={true} path="/staff" render={this.renderStaff}></Route>
+          <Redirect to="/schedule" />
         </div>
       </BrowserRouter>
     );
-  };
+  }
 }
 
 let mapStateToProps = state => {
