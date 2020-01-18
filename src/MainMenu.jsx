@@ -5,19 +5,21 @@ import { connect } from 'react-redux';
 // import fetch from './apiMocked.js';
 
 class U_MainMenu extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       //menu by default
       activeItem: 'schedule',
       countEmployees: 0
     };
   }
+
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
     //for navigation
     this.props.history.push('/' + name);
   };
+
   handleQuery = evt => {
     // if (evt.target.value !== '')
     this.props.dispatch({
@@ -25,16 +27,16 @@ class U_MainMenu extends Component {
       search: evt.target.value
     });
   };
+
   componentDidUpdate = prevProps => {
     //try to force the rerender afet the props is changed
-    console.log('in componentDidUpdate of MainMenu');
     // this.forceUpdate();
     if (this.props.staff.length !== prevProps.staff.length) {
       this.setState({ countEmployees: this.props.staff.length });
     }
   };
+
   render = () => {
-    console.log('render MainMenu');
     let activeItem = this.state;
     //in order to activ staffMenu when the oage is restarted in /staff link
     if (this.props.location.pathname.replace('/', '') === 'staff') activeItem = 'staff';
@@ -54,11 +56,13 @@ class U_MainMenu extends Component {
     );
   };
 }
+
 let mapStateToProps = state => {
   return {
     staff: state.employees,
     query: state.searchQuery
   };
 };
+
 let MainMenu = connect(mapStateToProps)(withRouter(U_MainMenu));
 export default MainMenu;

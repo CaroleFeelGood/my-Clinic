@@ -12,8 +12,8 @@ class U_CreateEmploye extends Component {
       group: ''
     };
   }
+
   submit = () => {
-    console.log('submit');
     let newid = () => {
       this.props.staff.sort();
       return this.props.staff[this.props.staff.length - 1] + 10;
@@ -33,11 +33,13 @@ class U_CreateEmploye extends Component {
       open: false
     });
   };
+
   inputChange = e => {
     let stateUpdate = {};
     stateUpdate[e.target.name] = e.target.value;
     this.setState(stateUpdate);
   };
+
   render() {
     return (
       <Form onSubmit={this.submit}>
@@ -58,11 +60,13 @@ class U_CreateEmploye extends Component {
     );
   }
 }
+
 let mapStateToProps = state => {
   return {
     staff: state.employees,
     open: state.open
   };
 };
+
 let CreateEmploye = connect(mapStateToProps)(U_CreateEmploye);
 export default CreateEmploye;

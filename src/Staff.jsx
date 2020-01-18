@@ -10,19 +10,16 @@ class U_Staff extends Component {
       open: false
     };
   }
+
   openModal = () => {
-    console.log('open modal');
     this.props.dispatch({
       type: 'open-modal',
       open: true
     });
     this.setState({ open: true });
   };
+
   render() {
-    // let { open } = this.props.open;
-    console.log('open', this.props.open);
-    console.log('staff', this.props.staff);
-    console.log('query', this.props.query);
     let resultStaff = this.props.staff.filter(employe => {
       if (employe.firstName.includes(this.props.query) || employe.lastName.includes(this.props.query) || employe.group.includes(this.props.query)) {
         return employe;
@@ -60,6 +57,7 @@ class U_Staff extends Component {
     );
   }
 }
+
 let mapStateToProps = state => {
   return {
     staff: state.employees,
@@ -67,5 +65,6 @@ let mapStateToProps = state => {
     query: state.searchQuery
   };
 };
+
 let Staff = connect(mapStateToProps)(U_Staff);
 export default Staff;

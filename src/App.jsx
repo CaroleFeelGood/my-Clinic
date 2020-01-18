@@ -6,12 +6,17 @@ import Staff from './Staff';
 import fetch from './apiMocked.js';
 import { connect } from 'react-redux';
 class U_App extends Component {
+  constructor(props) {
+    super(props);
+  }
   renderStaff = () => {
     return <Staff />;
   };
+
   renderSchedule = () => {
     return <Schedule />;
   };
+
   componentDidMount() {
     // call the mocked api => function import from apiMocked.js
     let apiUrl = 'https://chrono.com/api/doctors)';
@@ -27,6 +32,7 @@ class U_App extends Component {
         console.log(error);
       });
   }
+
   render = () => {
     return (
       <BrowserRouter>
@@ -40,10 +46,12 @@ class U_App extends Component {
     );
   };
 }
+
 let mapStateToProps = state => {
   return {
     staff: state.employees
   };
 };
+
 let App = connect(mapStateToProps)(U_App);
 export default App;
